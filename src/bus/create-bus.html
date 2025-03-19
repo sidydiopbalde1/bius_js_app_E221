@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion des Bus</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../../App.js" defer></script>
+</head>
+<body class="bg-gray-100 text-gray-900 flex flex-col items-center p-6">
+    <h1 class="text-3xl font-bold mb-4">Liste des Bus</h1>
+    
+    <ul id="bus-list" class="w-full max-w-lg bg-white shadow-md rounded-lg p-4 mb-6"></ul>
+
+    <h2 class="text-2xl font-semibold mb-3">Ajouter un Bus</h2>
+    <form id="bus-form" class="w-full max-w-lg bg-white shadow-md rounded-lg p-4 flex flex-col gap-3">
+        <input type="text" id="nom" placeholder="Nom du bus" required 
+               class="w-full p-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-300">
+        
+        <input type="text" id="matricule" placeholder="Matricule" required 
+               class="w-full p-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-300">
+
+        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
+            Ajouter
+        </button>
+    </form>
+</body>
+</html>
