@@ -5,26 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Création de Bus</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'primary': '#3B82F6',
-                        'secondary': '#F3F4F6'
-                    }
-                }
-            }
-        }
-    </script>
 </head>
 <body class="bg-gray-100 min-h-screen flex">
     <!-- Sidebar -->
     <div class="w-64 bg-white shadow-md">
         <div class="p-6 flex items-center space-x-3">
-            <div class="w-10 h-10 bg-pink-500 rounded-full">
-                <img class="rounded-full" src="https://res.cloudinary.com/di50em335/image/upload/v1730225327/uploads/wyzi32fuli00fheydqga.jpg" alt="">
-            </div>
+            <div class="w-10 h-10 bg-pink-500 rounded-full"></div>
             <span class="text-lg font-semibold">Resp. PARC</span>
         </div>
         <nav class="mt-10">
@@ -52,7 +38,7 @@
                         >
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Type</label>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Type de Bus</label>
                         <select 
                             id="type"
                             name="type"
@@ -60,9 +46,6 @@
                             class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                         >
                             <option value="">Sélectionner</option>
-                            <option value="TATA">TATA</option>
-                            <option value="CAR_RAPIDE">CAR RAPIDE</option>
-                            <option value="DDK">DDK</option>
                         </select>
                     </div>
                 </div>
@@ -82,11 +65,38 @@
                         <label class="block text-sm font-medium text-gray-700 mb-1">Nombre de places</label>
                         <input 
                             type="number" 
-                            id="nombrePlaces"
-                            name="nombrePlaces"
+                            id="nbrePlaces"
+                            name="nbrePlaces"
                             required
                             class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                         >
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">En Circulation</label>
+                        <select 
+                            id="enCirculation"
+                            name="enCirculation"
+                            required
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        >
+                            <option value="true">Oui</option>
+                            <option value="false">Non</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Conducteur</label>
+                        <select 
+                            id="conducteur"
+                            name="conducteur"
+                            required
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        >
+                            <option value="">Sélectionner un conducteur</option>
+                            <!-- Populate this dynamically from backend -->
+                        </select>
                     </div>
                 </div>
 
@@ -108,6 +118,16 @@
     </div>
 
     <script>
+        const busTypes = ["Tata", "Car Rapide", "DDK"]; 
+
+        const select = document.getElementById("type");
+
+        busTypes.forEach(type => {
+            const option = document.createElement("option");
+            option.value = type;
+            option.textContent = type;
+            select.appendChild(option);
+        });
         document.getElementById('busForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
@@ -115,16 +135,18 @@
             errorMessage.classList.add('hidden');
             errorMessage.textContent = '';
 
-            // Collect form data
+            // Collect form data matching Bus entity
             const formData = {
                 immatriculation: document.getElementById('immatriculation').value,
                 type: document.getElementById('type').value,
-                kilometrage: document.getElementById('kilometrage').value,
-                nombrePlaces: document.getElementById('nombrePlaces').value
+                kilometrage: parseInt(document.getElementById('kilometrage').value),
+                nbrePlaces: parseInt(document.getElementById('nbrePlaces').value),
+                enCirculation: document.getElementById('enCirculation').value === 'true',
+                conducteur: document.getElementById('conducteur').value || null
             };
 
             try {
-                const response = await fetch('/bus/create', {
+                const response = await fetch('http://127.0.0.1:8000/bus/create', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -137,7 +159,7 @@
 
                 if (response.ok) {
                     // Successful creation
-                    window.location.href = '/bus/list'; // Redirect to bus list
+                    window.location.href = './bus-list.html'; // Redirect to bus list
                 } else {
                     // Handle error
                     errorMessage.textContent = data.message || 'Erreur lors de la création du bus';
@@ -149,6 +171,31 @@
                 errorMessage.classList.remove('hidden');
             }
         });
+
+        // Dynamically populate conducteurs dropdown (you'd typically do this server-side)
+        async function loadConducteurs() {
+            try {
+                const response = await fetch('http://127.0.0.1:8000/conducteurs/list');
+                const data = await response.json();
+                console.log('Conducteurs:', data);
+                
+                const conducteurSelect = document.getElementById('conducteur');
+                conducteurs = data?.conducteurs;
+                console.log('Conducteurs:', conducteurs);
+                
+                conducteurs.forEach(conducteur => {
+                    const option = document.createElement('option');
+                    option.value = conducteur.id;
+                    option.textContent = `${conducteur.nom} ${conducteur.prenom}`;
+                    conducteurSelect.appendChild(option);
+                });
+            } catch (error) {
+                console.error('Erreur de chargement des conducteurs:', error);
+            }
+        }
+
+        // Load conducteurs when page loads
+        loadConducteurs();
     </script>
 </body>
 </html>
