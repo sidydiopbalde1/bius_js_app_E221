@@ -3,26 +3,152 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestion des Bus</title>
+    <title>Création de Bus</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="../../App.js" defer></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary': '#3B82F6',
+                        'secondary': '#F3F4F6'
+                    }
+                }
+            }
+        }
+    </script>
 </head>
-<body class="bg-gray-100 text-gray-900 flex flex-col items-center p-6">
-    <h1 class="text-3xl font-bold mb-4">Liste des Bus</h1>
-    
-    <ul id="bus-list" class="w-full max-w-lg bg-white shadow-md rounded-lg p-4 mb-6"></ul>
+<body class="bg-gray-100 min-h-screen flex">
+    <!-- Sidebar -->
+    <div class="w-64 bg-white shadow-md">
+        <div class="p-6 flex items-center space-x-3">
+            <div class="w-10 h-10 bg-pink-500 rounded-full">
+                <img class="rounded-full" src="https://res.cloudinary.com/di50em335/image/upload/v1730225327/uploads/wyzi32fuli00fheydqga.jpg" alt="">
+            </div>
+            <span class="text-lg font-semibold">Resp. PARC</span>
+        </div>
+        <nav class="mt-10">
+            <div class="px-6 py-3 hover:bg-gray-100 cursor-pointer text-gray-700">Dashboard</div>
+            <div class="px-6 py-3 hover:bg-gray-100 cursor-pointer text-gray-700">Conducteurs</div>
+            <div class="px-6 py-3 bg-gray-200 text-blue-600">Bus</div>
+        </nav>
+    </div>
 
-    <h2 class="text-2xl font-semibold mb-3">Ajouter un Bus</h2>
-    <form id="bus-form" class="w-full max-w-lg bg-white shadow-md rounded-lg p-4 flex flex-col gap-3">
-        <input type="text" id="nom" placeholder="Nom du bus" required 
-               class="w-full p-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-300">
-        
-        <input type="text" id="matricule" placeholder="Matricule" required 
-               class="w-full p-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-300">
+    <!-- Main Content -->
+    <div class="flex-1 p-10">
+        <div class="max-w-md mx-auto bg-white shadow-lg rounded-xl p-8">
+            <h2 class="text-2xl font-bold text-center mb-6 text-gray-800">Création de BUS</h2>
+            
+            <form id="busForm" class="space-y-4">
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Immatriculation</label>
+                        <input 
+                            type="text" 
+                            id="immatriculation"
+                            name="immatriculation"
+                            required
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        >
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Type</label>
+                        <select 
+                            id="type"
+                            name="type"
+                            required
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        >
+                            <option value="">Sélectionner</option>
+                            <option value="TATA">TATA</option>
+                            <option value="CAR_RAPIDE">CAR RAPIDE</option>
+                            <option value="DDK">DDK</option>
+                        </select>
+                    </div>
+                </div>
 
-        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
-            Ajouter
-        </button>
-    </form>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Kilométrage</label>
+                        <input 
+                            type="number" 
+                            id="kilometrage"
+                            name="kilometrage"
+                            required
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        >
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Nombre de places</label>
+                        <input 
+                            type="number" 
+                            id="nombrePlaces"
+                            name="nombrePlaces"
+                            required
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        >
+                    </div>
+                </div>
+
+                <div id="errorMessage" class="text-red-500 text-sm mt-2 hidden"></div>
+
+                <div class="pt-4">
+                    <button 
+                        type="submit"
+                        class="w-full bg-blue-500 text-white py-3 rounded-md hover:bg-blue-600 transition-colors duration-300 flex items-center justify-center"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd" />
+                        </svg>
+                        Ajouter
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('busForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const errorMessage = document.getElementById('errorMessage');
+            errorMessage.classList.add('hidden');
+            errorMessage.textContent = '';
+
+            // Collect form data
+            const formData = {
+                immatriculation: document.getElementById('immatriculation').value,
+                type: document.getElementById('type').value,
+                kilometrage: document.getElementById('kilometrage').value,
+                nombrePlaces: document.getElementById('nombrePlaces').value
+            };
+
+            try {
+                const response = await fetch('/bus/create', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    // Successful creation
+                    window.location.href = '/bus/list'; // Redirect to bus list
+                } else {
+                    // Handle error
+                    errorMessage.textContent = data.message || 'Erreur lors de la création du bus';
+                    errorMessage.classList.remove('hidden');
+                }
+            } catch (error) {
+                console.error('Erreur:', error);
+                errorMessage.textContent = 'Erreur de connexion. Veuillez réessayer.';
+                errorMessage.classList.remove('hidden');
+            }
+        });
+    </script>
 </body>
 </html>
