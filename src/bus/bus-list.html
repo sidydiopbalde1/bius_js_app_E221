@@ -9,17 +9,33 @@
 <body class="bg-gray-100 min-h-screen flex">
 
     <!-- Sidebar -->
-    <div class="w-64 bg-white shadow-md min-h-screen">
-        <div class="p-6 flex items-center space-x-3">
-            <div class="w-10 h-10 bg-pink-500 rounded-full"></div>
-            <span class="text-lg font-semibold text-gray-800">Resp. PARC</span>
-        </div>
-        <nav class="mt-10">
-            <div class="px-6 py-3 hover:bg-gray-100 cursor-pointer text-gray-700 transition-colors">Dashboard</div>
-            <div class="px-6 py-3 hover:bg-gray-100 cursor-pointer text-gray-700 transition-colors">Conducteurs</div>
-            <div class="px-6 py-3 bg-gray-200 text-blue-600 font-semibold">Bus</div>
-        </nav>
+  <!-- Sidebar -->
+<div class="w-48 bg-gray-200 h-full shadow-lg flex flex-col">
+    <!-- User Profile Section -->
+    <div class="p-4 flex flex-col items-center bg-gray-300">
+        <div class="w-20 h-20 rounded-full bg-red-400 mb-2 shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105"></div>
+        <div class="text-center font-medium animate__animated animate__fadeIn">Resp. PARC</div>
     </div>
+
+    <!-- Menu Items -->
+    <div class="mt-8 px-2 flex flex-col">
+        <a href="#" class="menu-item block mb-2 py-3 px-4 bg-gray-200 text-gray-800 rounded hover:bg-gray-300 transition-all hover:text-blue-500">
+            <span class="inline-block mr-2">📊</span> Dashboard
+        </a>
+        <a href="#" class="menu-item block mb-2 py-3 px-4 bg-blue-500 text-white rounded transition-all hover:bg-blue-600 hover:text-white">
+            <span class="inline-block mr-2">👨‍💼</span> Conducteurs
+        </a>
+        <a href="#" class="menu-item block mb-2 py-3 px-4 bg-gray-200 text-gray-800 rounded hover:bg-gray-300 transition-all hover:text-blue-500">
+            <span class="inline-block mr-2">🚌</span> Bus
+        </a>
+    </div>
+
+    <!-- Footer (optional) -->
+    <div class="mt-auto p-4 text-center text-gray-500 text-xs">
+        © 2025 Resp. Parc | Tous droits réservés
+    </div>
+</div>
+
 
     <!-- Main Content -->
     <div class="flex-1 p-10">
@@ -68,6 +84,6 @@
         </div>
     </div>
 
-    <script src="bus.js"></script>
+    <script type="module" src="./bus.js"></script>
 </body>
 </html>
