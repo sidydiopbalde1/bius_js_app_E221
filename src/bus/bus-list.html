@@ -1,89 +1,111 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Liste des BUS</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100 min-h-screen flex">
+<body class="bg-gray-100 min-h-screen flex font-sans">
 
-    <!-- Sidebar -->
-  <!-- Sidebar -->
-<div class="w-48 bg-gray-200 h-full shadow-lg flex flex-col">
-    <!-- User Profile Section -->
-    <div class="p-4 flex flex-col items-center bg-gray-300">
-        <div class="w-20 h-20 rounded-full bg-red-400 mb-2 shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105"></div>
-        <div class="text-center font-medium animate__animated animate__fadeIn">Resp. PARC</div>
+<!-- Sidebar -->
+<div class="w-64 bg-white shadow-md min-h-screen">
+    <div class="p-6 flex items-center space-x-3">
+        <div class="w-10 h-10 bg-pink-500 rounded-full"></div>
+        <span class="text-lg font-semibold text-gray-800">Resp. PARC</span>
     </div>
-
-    <!-- Menu Items -->
-    <div class="mt-8 px-2 flex flex-col">
-        <a href="#" class="menu-item block mb-2 py-3 px-4 bg-gray-200 text-gray-800 rounded hover:bg-gray-300 transition-all hover:text-blue-500">
-            <span class="inline-block mr-2">📊</span> Dashboard
-        </a>
-        <a href="#" class="menu-item block mb-2 py-3 px-4 bg-blue-500 text-white rounded transition-all hover:bg-blue-600 hover:text-white">
-            <span class="inline-block mr-2">👨‍💼</span> Conducteurs
-        </a>
-        <a href="#" class="menu-item block mb-2 py-3 px-4 bg-gray-200 text-gray-800 rounded hover:bg-gray-300 transition-all hover:text-blue-500">
-            <span class="inline-block mr-2">🚌</span> Bus
-        </a>
-    </div>
-
-    <!-- Footer (optional) -->
-    <div class="mt-auto p-4 text-center text-gray-500 text-xs">
-        © 2025 Resp. Parc | Tous droits réservés
-    </div>
+    <nav class="mt-10">
+        <div class="px-6 py-3 hover:bg-gray-100 cursor-pointer text-gray-700">Dashboard</div>
+        <div class="px-6 py-3 hover:bg-gray-100 cursor-pointer text-gray-700">Conducteurs</div>
+        <div class="px-6 py-3 bg-gray-200 text-blue-600 font-semibold">Bus</div>
+    </nav>
 </div>
 
+<!-- Main -->
+<div class="flex-1 p-10 relative">
+    <div class="bg-white shadow-lg rounded-xl p-8">
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-2xl font-bold text-gray-800">Liste des BUS</h2>
+            <button id="openModalBtn" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd" />
+                </svg>
+                Ajouter
+            </button>
+        </div>
 
-    <!-- Main Content -->
-    <div class="flex-1 p-10">
-        <div class="bg-white shadow-lg rounded-xl p-8">
-            <div class="flex justify-between items-center mb-6">
-                <h2 class="text-2xl font-bold text-gray-800">Liste des BUS</h2>
-                <button 
-                    id="addBusBtn"
-                    class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-all flex items-center"
-                >
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd" />
-                    </svg>
-                    Ajouter
-                </button>
-            </div>
-
-            <!-- Table -->
-            <div class="overflow-x-auto">
-                <table class="w-full text-sm text-left border border-gray-200">
-                    <thead class="bg-gray-100 text-gray-600 uppercase">
-                        <tr>
-                            <th class="px-4 py-3 border-b">Immatriculation</th>
-                            <th class="px-4 py-3 border-b">Type</th>
-                            <th class="px-4 py-3 border-b">Kilométrage</th>
-                            <th class="px-4 py-3 border-b">Nombre de places</th>
-                            <th class="px-4 py-3 border-b text-center">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="busTableBody" class="divide-y">
-                        <!-- Bus rows will be dynamically inserted here -->
-                    </tbody>
-                </table>
-            </div>
-
-            <!-- Pagination -->
-            <div class="flex justify-center items-center mt-6 space-x-2">
-                <button id="prevPage" class="px-4 py-2 bg-gray-200 rounded-md hover:bg-gray-300 transition-colors">
-                    &lt;
-                </button>
-                <span id="currentPage" class="px-4 py-2 bg-blue-500 text-white rounded-md">1</span>
-                <button id="nextPage" class="px-4 py-2 bg-gray-200 rounded-md hover:bg-gray-300 transition-colors">
-                    &gt;
-                </button>
-            </div>
+        <!-- Table -->
+        <div class="overflow-x-auto">
+            <table class="w-full text-sm text-left border border-gray-200">
+                <thead class="bg-gray-100 text-gray-600 uppercase">
+                <tr>
+                    <th class="px-4 py-3 border-b">Immatriculation</th>
+                    <th class="px-4 py-3 border-b">Type</th>
+                    <th class="px-4 py-3 border-b">Kilométrage</th>
+                    <th class="px-4 py-3 border-b">Places</th>
+                    <th class="px-4 py-3 border-b text-center">Actions</th>
+                </tr>
+                </thead>
+                <tbody id="busTableBody" class="divide-y">
+                <!-- Lignes dynamiques -->
+                </tbody>
+            </table>
         </div>
     </div>
 
-    <script type="module" src="./bus.js"></script>
+    <!-- Modal -->
+    <div id="modal" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center hidden">
+        <div class="bg-white w-full max-w-xl rounded-lg shadow-lg p-8 relative">
+            <h3 class="text-xl font-bold mb-4">Ajouter un nouveau BUS</h3>
+            <form id="busForm" class="space-y-4">
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="text-sm font-medium text-gray-700">Immatriculation</label>
+                        <input type="text" id="immatriculation" class="w-full px-3 py-2 border border-gray-300 rounded-md" />
+                    </div>
+                    <div>
+                        <label class="text-sm font-medium text-gray-700">Type de Bus</label>
+                        <select id="type" class="w-full px-3 py-2 border border-gray-300 rounded-md">
+                            <option value="">Sélectionner</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="text-sm font-medium text-gray-700">Kilométrage</label>
+                        <input type="number" id="kilometrage" class="w-full px-3 py-2 border border-gray-300 rounded-md" />
+                    </div>
+                    <div>
+                        <label class="text-sm font-medium text-gray-700">Nombre de places</label>
+                        <input type="number" id="nbrePlaces" class="w-full px-3 py-2 border border-gray-300 rounded-md" />
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="text-sm font-medium text-gray-700">En circulation</label>
+                        <select id="enCirculation" class="w-full px-3 py-2 border border-gray-300 rounded-md">
+                            <option value="true">Oui</option>
+                            <option value="false">Non</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="text-sm font-medium text-gray-700">Conducteur</label>
+                        <select id="conducteur" class="w-full px-3 py-2 border border-gray-300 rounded-md">
+                            <option value="">Sélectionner</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="errorMessage" class="text-red-500 text-sm hidden"></div>
+                <div class="flex justify-end space-x-2 pt-4">
+                    <button type="button" id="closeModalBtn" class="px-4 py-2 border border-gray-400 rounded-md">Annuler</button>
+                    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">Ajouter</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="bus.js" type="module">
+</script>
 </body>
 </html>

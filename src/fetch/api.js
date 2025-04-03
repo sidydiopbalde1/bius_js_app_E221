@@ -55,5 +55,12 @@ export async function createBus(busData) {
 }
 
 export async function createConducteurs(conducteursData) {
+    console.log(conducteursData);
+    
     return await fetchData(`${url}/conducteurs/create`, 'POST', conducteursData);
+}
+
+export function deleteConducteurs(matricule) {
+
+    return fetchData(`${url}/conducteurs/delete/${matricule}`, 'DELETE');
 }
