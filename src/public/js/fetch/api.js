@@ -1,6 +1,6 @@
 
 const url ='http://127.0.0.1:8000';
-async function fetchData(url, method = 'GET', body = null) {
+ export  async function fetchData(url, method = 'GET', body = null) {
     try {
         const options = {
             method,
@@ -55,5 +55,12 @@ export async function createBus(busData) {
 }
 
 export async function createConducteurs(conducteursData) {
+    console.log(conducteursData);
+    
     return await fetchData(`${url}/conducteurs/create`, 'POST', conducteursData);
+}
+
+export function deleteConducteurs(matricule) {
+
+    return fetchData(`${url}/conducteurs/delete/${matricule}`, 'DELETE');
 }

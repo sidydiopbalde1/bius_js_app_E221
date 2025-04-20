@@ -1,8 +1,14 @@
-import { getBuses, deleteBus, getConducteurs, createBus } from '../fetch/api.js';
+import { getBuses, deleteBus, getConducteurs, createBus } from '../public/js/fetch/api.js';
 import { validateBusForm } from './validatorBus.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     
+    const user = localStorage.getItem("user");
+
+    if (!user) {
+        // Rediriger vers la page de connexion si aucun utilisateur n'est stocké
+        window.location.href = "../login/login.html";
+    }
     const busTypes = ["Tata", "Car Rapide", "DDK"]; 
     const select = document.getElementById("type");
 
@@ -26,7 +32,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (document.getElementById('busTableBody')) {
         loadBuses();
     }
+    const modal = document.getElementById('modal');
+    const openModalBtn = document.getElementById('openModalBtn');
+    const closeModalBtn = document.getElementById('closeModalBtn');
 
+    openModalBtn.onclick = () => modal.classList.remove('hidden');
+    closeModalBtn.onclick = () => modal.classList.add('hidden');
     // Ajouter un event listener sur le formulaire uniquement s'il est présent
     const busForm = document.getElementById('busForm');
     if (busForm) {
@@ -67,15 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    const addBusbutton = document.getElementById('addBusBtn');
-
-    if (addBusbutton) {
-        addBusbutton.addEventListener('click', () => {
-            window.location.href = './create-bus.html';
-        });
-    } else {
-        console.warn("L'élément #ajouterBus n'existe pas sur cette page.");
-    }
+  
     
     
 });
@@ -86,8 +89,9 @@ async function loadConducteurs() {
     if (conducteurs && conducteurs.conducteurs) {
         const conducteurSelect = document.getElementById('conducteur');
         if (!conducteurSelect) return;
-
-        conducteurs.conducteurs.forEach(conducteur => {
+        // Filtrer les conducteurs disponibles (statut == "disponible" ou true)
+        const conducteursDisponibles = conducteurs.conducteurs.filter(c => c.disponible == true);
+        conducteursDisponibles.forEach(conducteur => {
             const option = document.createElement('option');
             option.value = conducteur.id;
             option.textContent = `${conducteur.nom} ${conducteur.prenom}`;
