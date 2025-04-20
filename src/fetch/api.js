@@ -1,6 +1,6 @@
 
 const url ='http://127.0.0.1:8000';
-async function fetchData(url, method = 'GET', body = null) {
+export async function fetchData(url, method = 'GET', body = null) {
     try {
         const options = {
             method,
@@ -64,3 +64,22 @@ export function deleteConducteurs(matricule) {
 
     return fetchData(`${url}/conducteurs/delete/${matricule}`, 'DELETE');
 }
+
+//------------------Create Lignes ----------------
+export async function getLignes() {
+    return await fetchData(`${url}/lignes/list`);
+}
+
+// Ajouter une nouvelle ligne
+export async function createLignes(lignesData) {
+    return await fetchData(`${url}/ligne/create`, 'POST', lignesData);
+}
+// Supprimer une ligne par numéro
+export async function deleteLignes(numero) {
+    const confirmDelete = confirm(`Voulez-vous vraiment supprimer la ligne ${numero} ?`);
+    if (!confirmDelete) return;
+
+    const response = await fetchData(`${url}/lignes/delete/${numero}`, 'DELETE');
+    return response;
+}
+//------------------Create Conducteurs ----------------

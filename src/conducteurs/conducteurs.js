@@ -30,27 +30,16 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         console.log("Conducteur à enregistrer :", driver);
 
-        // Validation des données
         const errors = validateConducteur(driver);
-        // if (errors.length > 0) {
-        //     errorMessage.textContent = errors.join(", ");
-        //     errorMessage.classList.remove("hidden");
-        //     return;
-        // }
+   
 
         try {
             await createConducteurs(driver);
             
-          
-            
-
-            // Recharger la liste des conducteurs
             await chargerConducteurs();
 
-            // Réinitialiser le formulaire
             e.target.reset();
-            modalOverlay.classList.add("hidden"); // Fermer le modal
-            // Masquer le message après 3 secondes et fermer le modal
+            modalOverlay.classList.add("hidden"); 
            
         } catch (error) {
             console.error("Erreur lors de l'ajout du conducteur:", error);
@@ -59,11 +48,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     });
 
-    // Charger la liste des conducteurs au démarrage
     await chargerConducteurs();
 });
 
-// Fonction pour charger la liste des conducteurs dans le tableau
 async function chargerConducteurs() {
     try {
         const conducteurs = await getConducteurs();
@@ -71,10 +58,10 @@ async function chargerConducteurs() {
         
         const driverTableBody = document.getElementById("driverTableBody");
 
-        driverTableBody.innerHTML = ""; // Vider le tableau avant d'insérer de nouvelles données
+        driverTableBody.innerHTML = ""; 
 
         conducteurs.conducteurs.forEach(conducteur => {
-            const row = document.createElement("tr");
+        const row = document.createElement("tr");
 
             row.innerHTML = `
                 <td class="px-6 py-4 whitespace-nowrap">${conducteur.matricule}</td>
