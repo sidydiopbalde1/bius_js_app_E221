@@ -1,4 +1,4 @@
-import { createConducteurs, getConducteurs, deleteConducteurs,  } from "../fetch/api.js";
+import { createConducteurs, getConducteurs, deleteConducteurs,  } from "../public/js/fetch/api.js";
 import { validateConducteur } from "./validatorConducteur.js";
 
 document.addEventListener('DOMContentLoaded', async () => {

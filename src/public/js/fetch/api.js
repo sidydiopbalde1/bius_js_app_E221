@@ -1,6 +1,6 @@
 
 const url ='http://127.0.0.1:8000';
-async function fetchData(url, method = 'GET', body = null) {
+ export  async function fetchData(url, method = 'GET', body = null) {
     try {
         const options = {
             method,

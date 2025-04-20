@@ -14,11 +14,32 @@
     <div class="w-10 h-10 bg-pink-500 rounded-full"></div>
     <span class="text-lg font-semibold text-gray-800">Resp. PARC</span>
   </div>
-  <nav class="mt-10">
-    <div class="px-6 py-3 hover:bg-gray-100 cursor-pointer text-gray-700 transition-colors">Dashboard</div>
-    <div class="px-6 py-3 bg-gray-200 text-blue-600 font-semibold">Conducteurs</div>
-    <div class="px-6 py-3 hover:bg-gray-100 cursor-pointer text-gray-700 transition-colors">Bus</div>
-  </nav>
+  <aside class="w-64 bg-slate-50 shadow-inner p-6 flex flex-col justify-between">
+    <div>
+        <h1 class="text-2xl font-black text-indigo-900 mb-10">SENBUS</h1>
+        <nav class="space-y-4">
+            <a href="/src/dashboard/dashboard.html" class="flex items-center justify-between px-3 py-2 bg-indigo-100 text-indigo-900 rounded">
+                <span>Dashboard</span>
+                <span class="w-1 h-6 bg-indigo-600"></span>
+            </a>
+            <a href="conducteur-list.html" class="flex items-center gap-2 px-3 py-2 hover:bg-slate-100 rounded">
+                <span>Conducteurs</span>
+            </a>
+            <a href="/src/bus/bus-list.html" class="flex items-center gap-2 px-3 py-2 hover:bg-slate-100 rounded">
+                <span>BUS</span>
+            </a>
+        </nav>
+    </div>
+    <div class="mt-10">
+        <div class="flex items-center gap-3">
+            <img src="https://placehold.co/32x32" class="rounded-full border-2 border-violet-300" />
+            <div>
+                <div class="text-sm font-medium">Modou FALL</div>
+                <div class="text-xs text-gray-500">Responsable de PARC</div>
+            </div>
+        </div>
+    </div>
+</aside>
 </div>
 
 <!-- Main Content -->

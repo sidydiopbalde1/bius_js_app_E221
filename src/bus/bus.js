@@ -1,4 +1,4 @@
-import { getBuses, deleteBus, getConducteurs, createBus } from '../fetch/api.js';
+import { getBuses, deleteBus, getConducteurs, createBus } from '../public/js/fetch/api.js';
 import { validateBusForm } from './validatorBus.js';
 
 document.addEventListener('DOMContentLoaded', () => {
