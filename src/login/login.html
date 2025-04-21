@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Senbus - Connexion</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-white min-h-screen flex items-center justify-center">
+<div class="w-[1100px] h-[700px] bg-white rounded-3xl shadow-2xl overflow-hidden flex font-['Zen_Kaku_Gothic_Antique']">
+
+    <!-- Image à gauche -->
+    <div class="w-1/2 h-full">
+        <img src="../../assets/bus-dddd-smart-png.webp" alt="Bus Senbus" class="w-full h-full object-cover rounded-l-3xl">
+    </div>
+
+    <!-- Formulaire à droite -->
+    <div class="w-1/2 h-full flex flex-col justify-center items-center px-12 py-10 space-y-6 bg-white">
+
+        <!-- Titre -->
+        <div class="text-center">
+            <h1 class="text-3xl font-black text-neutral-800">SENBUS</h1>
+            <p class="uppercase text-base text-neutral-700 mt-1">Connectez-vous</p>
+        </div>
+
+        <!-- Form -->
+        <form id="loginForm" class="w-full space-y-5">
+            <!-- Message global -->
+            <div id="errorMessage" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded"></div>
+
+            <!-- Email -->
+            <div>
+                <label class="relative block">
+          <span class="absolute inset-y-0 left-3 flex items-center text-gray-400">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+            </svg>
+          </span>
+                    <input
+                            id="emailInput"
+                            type="email"
+                            placeholder="example@email.com"
+                            class="w-full rounded-lg border px-10 py-3 text-neutral-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                </label>
+                <p id="emailError" class="text-sm text-red-500 mt-1 hidden">Le champ email est requis.</p>
+            </div>
+
+            <!-- Mot de passe -->
+            <div>
+                <label class="relative block">
+          <span class="absolute inset-y-0 left-3 flex items-center text-gray-400">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+            </svg>
+          </span>
+                    <input
+                            id="passwordInput"
+                            type="password"
+                            placeholder="********"
+                            class="w-full rounded-lg border px-10 py-3 text-neutral-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                    <span id="togglePassword" class="absolute right-3 top-3 flex items-center text-gray-500 cursor-pointer">
+            <svg id="eyeIcon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-.182.633-.46 1.23-.826 1.773M15.03 15.03a6.001 6.001 0 01-6.06 0M3 3l18 18" id="eyeSlashIcon" class="hidden"/>
+            </svg>
+          </span>
+                </label>
+                <p id="passwordError" class="text-sm text-red-500 mt-1 hidden">Le mot de passe est requis.</p>
+            </div>
+
+            <!-- Bouton -->
+            <button
+                    type="submit"
+                    id="loginButton"
+                    class="w-full py-3 bg-slate-800 text-white rounded-lg font-medium hover:bg-slate-900 flex justify-center items-center transition duration-300"
+            >
+                <span id="loginText">Se connecter</span>
+                <svg id="loadingSpinner" class="hidden animate-spin h-5 w-5 ml-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"/>
+                </svg>
+            </button>
+        </form>
+
+        <!-- Lien mot de passe oublié -->
+        <div>
+            <a href="#" class="text-sm text-gray-500 hover:underline">Mot de passe oublié ?</a>
+        </div>
+    </div>
+</div>
+
+<!-- Script -->
+<script>
+    document.getElementById('loginForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        const emailInput = document.getElementById('emailInput');
+        const passwordInput = document.getElementById('passwordInput');
+        const emailError = document.getElementById('emailError');
+        const passwordError = document.getElementById('passwordError');
+        const errorMessage = document.getElementById('errorMessage');
+        const loginButton = document.getElementById('loginButton');
+        const loginText = document.getElementById('loginText');
+        const loadingSpinner = document.getElementById('loadingSpinner');
+
+        let valid = true;
+
+        // Reset
+        emailError.classList.add('hidden');
+        passwordError.classList.add('hidden');
+        errorMessage.classList.add('hidden');
+        emailInput.classList.remove('border-red-500');
+        passwordInput.classList.remove('border-red-500');
+
+        if (!emailInput.value.trim()) {
+            emailError.classList.remove('hidden');
+            emailInput.classList.add('border-red-500');
+            valid = false;
+        }
+
+        if (!passwordInput.value.trim()) {
+            passwordError.classList.remove('hidden');
+            passwordInput.classList.add('border-red-500');
+            valid = false;
+        }
+
+        if (!valid) return;
+
+        loginButton.disabled = true;
+        loginText.classList.add('hidden');
+        loadingSpinner.classList.remove('hidden');
+
+        try {
+            const response = await fetch('http://127.0.0.1:8000/api/login', {
+                method: 'POST',
+                mode: 'cors',
+                cache: 'no-cache',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    email: emailInput.value,
+                    password: passwordInput.value
+                })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                localStorage.setItem("token", data.token);
+                localStorage.setItem("user", JSON.stringify(data.user));
+                window.location.href = '../bus/bus-list.html';
+            } else {
+                errorMessage.textContent = data.message || 'Échec de la connexion';
+                errorMessage.classList.remove('hidden');
+            }
+        } catch (error) {
+            errorMessage.textContent = 'Erreur réseau ou serveur';
+            errorMessage.classList.remove('hidden');
+        } finally {
+            loginButton.disabled = false;
+            loginText.classList.remove('hidden');
+            loadingSpinner.classList.add('hidden');
+        }
+    });
+
+    // Gestion œil/œil barré
+    document.getElementById('togglePassword').addEventListener('click', function () {
+        const passwordInput = document.getElementById('passwordInput');
+        const eyeIcon = document.getElementById('eyeIcon');
+        const eyeSlashIcon = document.getElementById('eyeSlashIcon');
+
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            eyeSlashIcon.classList.remove('hidden');
+            eyeIcon.classList.add('hidden');
+        } else {
+            passwordInput.type = 'password';
+            eyeSlashIcon.classList.add('hidden');
+            eyeIcon.classList.remove('hidden');
+        }
+    });
+</script>
+</body>
+</html>

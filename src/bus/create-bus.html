@@ -3,26 +3,136 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestion des Bus</title>
+    <title>Création de Bus</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="../../App.js" defer></script>
 </head>
-<body class="bg-gray-100 text-gray-900 flex flex-col items-center p-6">
-    <h1 class="text-3xl font-bold mb-4">Liste des Bus</h1>
-    
-    <ul id="bus-list" class="w-full max-w-lg bg-white shadow-md rounded-lg p-4 mb-6"></ul>
+<body class="bg-gray-100 min-h-screen flex">
+    <!-- Sidebar -->
+   <!-- Sidebar -->
+<div class="w-48 bg-gray-200 h-full shadow-lg flex flex-col">
+    <!-- User Profile Section -->
+    <div class="p-4 flex flex-col items-center bg-gray-300">
+        <div class="w-20 h-20 rounded-full bg-red-400 mb-2 shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105"></div>
+        <div class="text-center font-medium animate__animated animate__fadeIn">Resp. PARC</div>
+    </div>
 
-    <h2 class="text-2xl font-semibold mb-3">Ajouter un Bus</h2>
-    <form id="bus-form" class="w-full max-w-lg bg-white shadow-md rounded-lg p-4 flex flex-col gap-3">
-        <input type="text" id="nom" placeholder="Nom du bus" required 
-               class="w-full p-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-300">
-        
-        <input type="text" id="matricule" placeholder="Matricule" required 
-               class="w-full p-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-300">
+    <!-- Menu Items -->
+    <div class="mt-8 px-2 flex flex-col">
+        <a href="#" class="menu-item block mb-2 py-3 px-4 bg-gray-200 text-gray-800 rounded hover:bg-gray-300 transition-all hover:text-blue-500">
+            <span class="inline-block mr-2">📊</span> Dashboard
+        </a>
+        <a href="#" class="menu-item block mb-2 py-3 px-4 bg-blue-500 text-white rounded transition-all hover:bg-blue-600 hover:text-white">
+            <span class="inline-block mr-2">👨‍💼</span> Conducteurs
+        </a>
+        <a href="#" class="menu-item block mb-2 py-3 px-4 bg-gray-200 text-gray-800 rounded hover:bg-gray-300 transition-all hover:text-blue-500">
+            <span class="inline-block mr-2">🚌</span> Bus
+        </a>
+    </div>
 
-        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
-            Ajouter
-        </button>
-    </form>
+    <!-- Footer (optional) -->
+    <div class="mt-auto p-4 text-center text-gray-500 text-xs">
+        © 2025 Resp. Parc | Tous droits réservés
+    </div>
+</div>
+
+
+    <!-- Main Content -->
+    <div class="flex-1 p-10">
+        <div class="max-w-md mx-auto bg-white shadow-lg rounded-xl p-8">
+            <h2 class="text-2xl font-bold text-center mb-6 text-gray-800">Création de BUS</h2>
+            
+            <form id="busForm" class="space-y-4">
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Immatriculation</label>
+                        <input 
+                            type="text" 
+                            id="immatriculation"
+                            name="immatriculation"
+                          
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        >
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Type de Bus</label>
+                        <select 
+                            id="type"
+                            name="type"
+                         
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        >
+                            <option value="">Sélectionner</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Kilométrage</label>
+                        <input 
+                            type="number" 
+                            id="kilometrage"
+                            name="kilometrage"
+                           
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        >
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Nombre de places</label>
+                        <input 
+                            type="number" 
+                            id="nbrePlaces"
+                            name="nbrePlaces"
+                           
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        >
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">En Circulation</label>
+                        <select 
+                            id="enCirculation"
+                            name="enCirculation"
+                        
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        >
+                            <option value="true">Oui</option>
+                            <option value="false">Non</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Conducteur</label>
+                        <select 
+                            id="conducteur"
+                            name="conducteur"
+                       
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        >
+                            <option value="">Sélectionner un conducteur</option>
+                            <!-- Populate this dynamically from backend -->
+                        </select>
+                    </div>
+                </div>
+
+                <div id="errorMessage" class="text-red-500 text-sm mt-2 hidden"></div>
+
+                <div class="pt-4">
+                    <button 
+                        type="submit"
+                        class="w-full bg-blue-500 text-white py-3 rounded-md hover:bg-blue-600 transition-colors duration-300 flex items-center justify-center"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd" />
+                        </svg>
+                        Ajouter
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script type="module" src="./bus.js"></script>
 </body>
 </html>

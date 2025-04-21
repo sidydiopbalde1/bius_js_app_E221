@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SENBUS Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-white font-sans text-gray-800">
+
+<!-- Sidebar -->
+<div class="flex min-h-screen">
+    <aside class="w-64 bg-slate-50 shadow-inner p-6 flex flex-col justify-between">
+        <div>
+            <h1 class="text-2xl font-black text-indigo-900 mb-10">SENBUS</h1>
+            <nav class="space-y-4">
+                <a href="src/dashboard/dashboard.html" class="flex items-center justify-between px-3 py-2 bg-indigo-100 text-indigo-900 rounded">
+                    <span>Dashboard</span>
+                    <span class="w-1 h-6 bg-indigo-600"></span>
+                </a>
+                <a href="src/conducteurs/conducteur-list.html" class="flex items-center gap-2 px-3 py-2 hover:bg-slate-100 rounded">
+                    <span>Conducteurs</span>
+                </a>
+                <a href="src/bus/bus-list.html" class="flex items-center gap-2 px-3 py-2 hover:bg-slate-100 rounded">
+                    <span>BUS</span>
+                </a>
+            </nav>
+        </div>
+        <div class="mt-10">
+            <div class="flex items-center gap-3">
+                <img src="https://placehold.co/32x32" class="rounded-full border-2 border-violet-300" />
+                <div>
+                    <div class="text-sm font-medium">Modou FALL</div>
+                    <div class="text-xs text-gray-500">Responsable de PARC</div>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main -->
+    <main class="flex-1 p-8 space-y-8 overflow-auto">
+        <h2 class="text-3xl font-semibold text-center">Dashboard</h2>
+
+        <!-- Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="bg-stone-50 shadow-md rounded-lg p-4">
+                <div class="text-sm text-gray-500">Nombre de bus</div>
+                <div class="text-3xl font-bold mt-2">53</div>
+            </div>
+            <div class="bg-stone-50 shadow-md rounded-lg p-4">
+                <div class="text-sm text-gray-500">Nombre de ligne</div>
+                <div class="text-3xl font-bold mt-2">15</div>
+            </div>
+            <div class="bg-stone-50 shadow-md rounded-lg p-4">
+                <div class="text-sm text-gray-500">Bus en panne</div>
+                <div class="text-3xl font-bold mt-2">7</div>
+            </div>
+            <div class="bg-stone-50 shadow-md rounded-lg p-4">
+                <div class="text-sm text-gray-500">Trajets aujourd’hui</div>
+                <div class="text-3xl font-bold mt-2">45</div>
+            </div>
+        </div>
+
+        <!-- Graph Sections -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <!-- Device Traffic -->
+            <div class="bg-gray-50 p-6 rounded-2xl shadow">
+                <h3 class="text-blue-600 font-semibold mb-4">Device Traffic</h3>
+                <div class="flex justify-between items-end h-40">
+                    <div class="text-center">
+                        <div class="bg-gray-300 h-16 w-6 rounded"></div>
+                        <div class="text-sm mt-1">Linux</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="bg-gray-300 h-28 w-6 rounded"></div>
+                        <div class="text-sm mt-1">Mac</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="bg-gray-300 h-20 w-6 rounded"></div>
+                        <div class="text-sm mt-1">iOS</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="bg-gray-300 h-32 w-6 rounded"></div>
+                        <div class="text-sm mt-1">Windows</div>
+                    </div>
+                    <div class="text-center relative">
+                        <div class="bg-black h-40 w-6 rounded"></div>
+                        <div class="absolute -top-6 left-1/2 -translate-x-1/2 text-white bg-black px-2 py-1 text-xs rounded-full">243K</div>
+                        <div class="text-sm mt-1">Android</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="bg-gray-300 h-12 w-6 rounded"></div>
+                        <div class="text-sm mt-1">Other</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Location Traffic -->
+            <div class="bg-gray-50 p-6 rounded-2xl shadow">
+                <h3 class="text-green-600 font-semibold mb-4">Location Traffic</h3>
+                <div class="flex justify-between items-end h-40">
+                    <div class="text-center">
+                        <div class="bg-gray-300 h-20 w-6 rounded"></div>
+                        <div class="text-sm mt-1">US</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="bg-gray-300 h-28 w-6 rounded"></div>
+                        <div class="text-sm mt-1">Canada</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="bg-gray-300 h-24 w-6 rounded"></div>
+                        <div class="text-sm mt-1">Mexico</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="bg-gray-300 h-12 w-6 rounded"></div>
+                        <div class="text-sm mt-1">China</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="bg-gray-300 h-32 w-6 rounded"></div>
+                        <div class="text-sm mt-1">Japan</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="bg-gray-300 h-16 w-6 rounded"></div>
+                        <div class="text-sm mt-1">Australia</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Product Traffic (Placeholder) -->
+        <div class="bg-gray-50 p-6 rounded-2xl shadow">
+            <h3 class="text-red-600 font-semibold mb-4">Product Traffic</h3>
+            <p class="text-gray-500">Graphique mensuel (à intégrer avec Chart.js)</p>
+        </div>
+
+    </main>
+</div>
+
+</body>
+</html>

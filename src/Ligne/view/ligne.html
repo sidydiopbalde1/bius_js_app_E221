@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Gestion des Lignes de Bus</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body class="bg-gray-50 flex">
+
+<!-- Sidebar -->
+<div class="w-64 bg-white shadow-md min-h-screen">
+    <div class="p-6">
+        <h1 class="text-xl font-bold text-indigo-800 mb-6">SENBUS</h1>
+        <nav class="space-y-4">
+            <a href="#" class="flex items-center gap-2 px-3 py-2 bg-blue-50 text-blue-600 rounded">
+                <span class="material-icons">view_list</span> Lignes
+            </a>
+            <a href="#" class="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 rounded">
+                <span class="material-icons">person</span> Conducteurs
+            </a>
+            <a href="#" class="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 rounded">
+                <span class="material-icons">place</span> Stations
+            </a>
+        </nav>
+    </div>
+</div>
+
+<!-- Main Content -->
+<main class="flex-1 p-8">
+    <div class="mb-6 flex justify-between items-center">
+        <h2 class="text-3xl font-extrabold text-indigo-900">LIGNES</h2>
+        <button onclick="toggleModal(true)" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 flex items-center gap-2">
+            <span class="material-icons">add</span> Ajouter une ligne
+        </button>
+    </div>
+
+    <!-- Grid -->
+    <div id="lignes-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <!-- Cartes injectées dynamiquement -->
+    </div>
+</main>
+
+<!-- MODAL -->
+<div id="ligne-modal" class="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center hidden z-50">
+    <div class="bg-white p-6 rounded-lg w-[90%] max-w-md shadow-xl">
+        <h2 class="text-xl font-semibold mb-4">Ajouter une ligne</h2>
+        <form id="ligne-form" class="space-y-4">
+            <div>
+                <input id="km" type="number" placeholder="Nombre de kilomètres" class="w-full px-4 py-2 border rounded-lg" />
+            </div>
+            <div>
+                <input id="tarif" type="number" step="0.01" placeholder="Tarif (Fcfa)" class="w-full px-4 py-2 border rounded-lg" />
+            </div>
+            <div>
+                <select id="etat" class="w-full px-4 py-2 border rounded-lg">
+                    <option value="">Choisir état</option>
+                    <option value="Actif">Actif</option>
+                    <option value="Inactif">Inactif</option>
+                </select>
+            </div>
+            <div class="flex justify-end gap-2">
+                <button type="button" class="modal-close px-4 py-2 border rounded-lg">Annuler</button>
+                <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">Enregistrer</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Script principal -->
+<script type="module" src="../js/ligne.js"></script>
+<script>
+    window.toggleModal = function (show) {
+        const modal = document.getElementById('ligne-modal');
+        if (modal) modal.classList.toggle('hidden', !show);
+    };
+</script>
+</body>
+</html>
