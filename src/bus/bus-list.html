@@ -5,20 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Liste des BUS</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
 </head>
 <body class="bg-gray-100 min-h-screen flex font-sans">
 
 <!-- Sidebar -->
 <div class="w-64 bg-white shadow-md min-h-screen">
-    <div class="p-6 flex items-center space-x-3">
-        <div class="w-10 h-10 bg-pink-500 rounded-full"></div>
-        <span class="text-lg font-semibold text-gray-800">Resp. PARC</span>
+    <div class="p-6">
+        <h1 class="text-xl font-bold text-indigo-800 mb-6">SENBUS</h1>
+        <nav class="space-y-4">
+            <a href="../Ligne/view/ligne.html" class="flex items-center gap-2 px-3 py-2 bg-blue-50 text-blue-600 rounded">
+                <span class="material-icons"></span> Bus
+            </a>
+            <a href="../Ligne/view/ligne.html" class="flex items-center gap-2 px-3 py-2 bg-blue-50 text-blue-600 rounded">
+                <span class="material-icons">view_list</span> Lignes
+            </a>
+            <a href="../conducteurs/conducteur-list.html" class="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 rounded">
+                <span class="material-icons">person</span> Conducteurs
+            </a>
+            <a href="../stations/station-list.html" class="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 rounded">
+                <span class="material-icons">place</span> Stations
+            </a>
+        </nav>
     </div>
-    <nav class="mt-10">
-        <div class="px-6 py-3 hover:bg-gray-100 cursor-pointer text-gray-700">Dashboard</div>
-        <div class="px-6 py-3 hover:bg-gray-100 cursor-pointer text-gray-700">Conducteurs</div>
-        <div class="px-6 py-3 bg-gray-200 text-blue-600 font-semibold">Bus</div>
-    </nav>
 </div>
 
 <!-- Main -->

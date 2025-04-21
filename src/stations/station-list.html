@@ -6,6 +6,8 @@
     <title>SENBUS - Stations</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
     <style>
         .active-nav {
             background-color: #eef2ff;
@@ -21,34 +23,22 @@
     <div class="flex h-screen">
         <!-- Sidebar -->
         <div class="w-56 bg-white border-r border-gray-200 flex flex-col">
-            <div class="p-4 border-b border-gray-200">
-                <h1 class="text-2xl font-bold text-indigo-900">SENBUS</h1>
-            </div>
-            <div class="flex-1 overflow-y-auto py-4">
-                <nav class="space-y-1 px-2">
-                    <a href="#" class="flex items-center px-4 py-3 text-gray-600 hover:bg-gray-100 rounded-md">
-                        <i class="fas fa-tachometer-alt w-5 h-5 mr-3 text-gray-400"></i>
-                        <span>Dashboard</span>
-                    </a>
-                    <a href="#" class="flex items-center px-4 py-3 text-gray-600 hover:bg-gray-100 rounded-md">
-                        <i class="fas fa-route w-5 h-5 mr-3 text-gray-400"></i>
-                        <span>Ligne</span>
-                    </a>
-                    <a href="#" class="flex items-center px-4 py-3 text-indigo-600 active-nav rounded-md">
-                        <i class="fas fa-map-marker-alt w-5 h-5 mr-3 text-indigo-600"></i>
-                        <span>Stations</span>
-                    </a>
-                    <a href="#" class="flex items-center px-4 py-3 text-gray-600 hover:bg-gray-100 rounded-md">
-                        <i class="fas fa-ticket-alt w-5 h-5 mr-3 text-gray-400"></i>
-                        <span>Tickets</span>
-                    </a>
-                    <a href="#" class="flex items-center px-4 py-3 text-gray-600 hover:bg-gray-100 rounded-md">
-                        <i class="fas fa-map w-5 h-5 mr-3 text-gray-400"></i>
-                        <span>Trajets</span>
-                    </a>
-                </nav>
-            </div>
-            <div class="p-4 border-t border-gray-200">
+         
+                <div class="p-6">
+                    <h1 class="text-xl font-bold text-indigo-800 mb-6">SENBUS</h1>
+                    <nav class="space-y-4">
+                        <a href="../Ligne/view/ligne.html" class="flex items-center gap-2 px-3 py-2 bg-blue-50 text-blue-600 rounded">
+                            <span class="material-icons">view_list</span> Lignes
+                        </a>
+                        <a href="../conducteurs/conducteur-list.html" class="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 rounded">
+                            <span class="material-icons">person</span> Conducteurs
+                        </a>
+                        <a href="station-list.html" class="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 rounded">
+                            <span class="material-icons">place</span> Stations
+                        </a>
+                    </nav>
+                </div>
+            <!-- <div class="p-4 border-t border-gray-200">
                 <div class="flex items-center">
                     <img src="https://via.placeholder.com/40" alt="Avatar" class="rounded-full w-10 h-10">
                     <div class="ml-3">
@@ -56,7 +46,7 @@
                         <p class="text-xs text-gray-500">Responsable TRAJET</p>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
 
         <!-- Main Content -->
