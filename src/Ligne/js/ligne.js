@@ -1,6 +1,8 @@
 import { createLigne, getLignes, updateLigne, deleteLigne } from './ligne.fetch.js';
-
+import { renderUserConnected } from '../../login/auth.js';
 document.addEventListener('DOMContentLoaded', async () => {
+
+    renderUserConnected();
     await chargerLignes();
 
     const form = document.getElementById('ligne-form');

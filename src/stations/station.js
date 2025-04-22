@@ -1,8 +1,9 @@
 import { fetchData,getStations, getLignes } from '../fetch/api.js';
-
+import { renderUserConnected } from '../login/auth.js';
 
 const url ='http://127.0.0.1:8000';
 
+renderUserConnected();
 let currentPage = 1;
 const itemsPerPage = 5;
 let stationsData = [];

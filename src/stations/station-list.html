@@ -21,47 +21,56 @@
 </head>
 <body class="bg-gray-50 font-sans">
     <div class="flex h-screen">
-        <!-- Sidebar -->
-        <div class="w-56 bg-white border-r border-gray-200 flex flex-col">
-         
-                <div class="p-6">
-                    <h1 class="text-xl font-bold text-indigo-800 mb-6">SENBUS</h1>
-                    <nav class="space-y-4">
-                        <a href="../Ligne/view/ligne.html" class="flex items-center gap-2 px-3 py-2 bg-blue-50 text-blue-600 rounded">
-                            <span class="material-icons"></span> Bus
-                        </a>
-                        <a href="../Ligne/view/ligne.html" class="flex items-center gap-2 px-3 py-2 bg-blue-50 text-blue-600 rounded">
-                            <span class="material-icons">view_list</span> Lignes
-                        </a>
-                        <a href="../conducteurs/conducteur-list.html" class="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 rounded">
-                            <span class="material-icons">person</span> Conducteurs
-                        </a>
-                        <a href="station-list.html" class="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 rounded">
-                            <span class="material-icons">place</span> Stations
-                        </a>
-                    </nav>
-                </div>
-            <!-- <div class="p-4 border-t border-gray-200">
-                <div class="flex items-center">
-                    <img src="https://via.placeholder.com/40" alt="Avatar" class="rounded-full w-10 h-10">
-                    <div class="ml-3">
-                        <p class="text-sm font-medium text-gray-700">Kadia BA</p>
-                        <p class="text-xs text-gray-500">Responsable TRAJET</p>
+        <div class="w-64 bg-white shadow-md min-h-screen flex flex-col justify-between">
+            <div class="p-6">
+                <h1 class="text-xl font-bold text-indigo-800 mb-8 sidebar-logo flex items-center">
+                    <span class="material-icons text-indigo-600 mr-2">directions_bus</span>
+                    SENBUS
+                </h1>
+                <nav class="space-y-3">
+                    <a href="../bus/bus-list.html" class="nav-item flex items-center gap-3 px-4 py-3 hover:bg-blue-50 rounded-lg">
+                        <span class="material-icons">commute</span> 
+                        <span>Bus</span>
+                    </a>
+                    <a href="../Ligne/view/ligne.html" class="nav-item flex items-center gap-3 px-4 py-3 hover:bg-blue-50 rounded-lg">
+                        <span class="material-icons">view_list</span> 
+                        <span>Lignes</span>
+                    </a>
+                    <a href="../conducteurs/conducteur-list.html" class="nav-item flex items-center gap-3 px-4 py-3 bg-blue-50 text-blue-600 rounded-lg">
+                        <span class="material-icons">person</span> 
+                        <span>Conducteurs</span>
+                    </a>
+                    <a href="station-list.html" class="nav-item flex items-center gap-3 px-4 py-3 hover:bg-blue-50 rounded-lg">
+                        <span class="material-icons">place</span> 
+                        <span>Stations</span>
+                    </a>
+                </nav>
+            </div>
+            
+            <!-- Utilisateur connecté -->
+            <div class="p-4 border-t border-gray-200">
+                <div class="flex items-center gap-3 p-2">
+                    <div class="w-10 h-10 rounded-full bg-indigo-600 flex items-center justify-center text-white">
+                        <span class="material-icons">person</span>
+                    </div>
+                    <div>
+                        <p class="font-medium text-gray-800" id="nom_conducteur">Amadou Diop</p>
+                        <p class="text-xs text-gray-500" id="role_conducteur">Administrateur</p>
                     </div>
                 </div>
-            </div> -->
+            </div>
         </div>
 
         <!-- Main Content -->
         <div class="flex-1 flex flex-col overflow-hidden">
             <!-- Main Content Area -->
             <div class="flex-1 overflow-y-auto p-6">
-                <!-- Page Header -->
-                <div class="bg-gray-50 shadow-sm rounded-lg mb-6">
+                <div class="bg-blue-100 shadow-sm rounded-lg mb-6">
                     <div class="max-w-7xl mx-auto py-6 px-4">
                         <h1 class="text-3xl font-bold text-center text-gray-900">Stations</h1>
                     </div>
                 </div>
+                <!-- Page Header -->
 
                 <!-- Content -->
                 <div class="max-w-7xl mx-auto">

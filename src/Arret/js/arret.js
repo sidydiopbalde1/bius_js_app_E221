@@ -1,6 +1,7 @@
 import { createArret } from './arret.fetch.js';
-
+import { renderUserConnected } from '../../login/auth.js';
 document.addEventListener('DOMContentLoaded', async () => {
+    renderUserConnected();
     const arretsJSON = localStorage.getItem('arrets_ligne');
     const ligneIdStorage = localStorage.getItem('ligne_id');
     
@@ -70,6 +71,36 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     chargerArrets();
+    document.addEventListener('DOMContentLoaded', function() {
+        // Ajouter les classes d'animation aux lignes de tableau
+        const rows = document.querySelectorAll('#arrets-body tr');
+        rows.forEach((row, index) => {
+            row.classList.add('animate__animated', 'animate__fadeIn');
+            row.style.animationDelay = `${index * 0.1}s`;
+        });
+    });
+
+    // Toggle modal avec animation
+    window.toggleModal = function(show) {
+        const modal = document.getElementById('arret-modal');
+        const modalContent = modal.querySelector('div');
+        
+        if (show) {
+            // Afficher le modal
+            modal.classList.remove('hidden');
+            modalContent.classList.remove('animate__fadeOutUp');
+            modalContent.classList.add('animate__fadeInDown');
+        } else {
+            // Cacher le modal avec animation
+            modalContent.classList.remove('animate__fadeInDown');
+            modalContent.classList.add('animate__fadeOutUp');
+            
+            // Attendre la fin de l'animation avant de cacher complètement
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 500);
+        }
+    };
 });
 
 // Toast générique

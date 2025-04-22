@@ -1,7 +1,10 @@
 import { createConducteurs, getConducteurs, deleteConducteurs,  } from "../public/js/fetch/api.js";
 import { validateConducteur } from "./validatorConducteur.js";
+import { renderUserConnected } from '../login/auth.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
+
+    renderUserConnected();
     const user = localStorage.getItem("user");
     if (!user) {
         window.location.href = "../login/login.html";
@@ -50,6 +53,35 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     await chargerConducteurs();
 });
+document.addEventListener('DOMContentLoaded', function() {
+    // Animation pour les lignes du tableau
+    const rows = document.querySelectorAll('#driverTableBody tr');
+    rows.forEach((row, index) => {
+      row.classList.add('animate__animated', 'animate__fadeIn');
+      row.style.animationDelay = `${index * 0.1}s`;
+    });
+
+    // Gestion du modal avec animation
+    const modal = document.getElementById('modalOverlay');
+    const modalContent = modal.querySelector('div');
+    const addDriverBtn = document.getElementById('addDriverBtn');
+    const closeModalBtn = document.getElementById('closeModal');
+
+    addDriverBtn.addEventListener('click', () => {
+      modal.classList.remove('hidden');
+      modalContent.classList.remove('animate__fadeOutUp');
+      modalContent.classList.add('animate__fadeInDown');
+    });
+
+    closeModalBtn.addEventListener('click', () => {
+      modalContent.classList.remove('animate__fadeInDown');
+      modalContent.classList.add('animate__fadeOutUp');
+      
+      setTimeout(() => {
+        modal.classList.add('hidden');
+      }, 500);
+    });
+  });
 
 async function chargerConducteurs() {
     try {

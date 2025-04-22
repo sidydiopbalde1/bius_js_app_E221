@@ -6,65 +6,160 @@
     <title>Arrêts de la Ligne</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    <style>
+        /* Animations personnalisées */
+        .nav-item {
+            transition: all 0.3s ease;
+        }
+        .nav-item:hover {
+            transform: translateX(5px);
+        }
+        .sidebar-logo {
+            transition: all 0.5s ease;
+        }
+        .sidebar-logo:hover {
+            transform: scale(1.05);
+        }
+        .main-content {
+            transition: opacity 0.4s ease;
+        }
+        .btn-hover {
+            transition: all 0.3s ease;
+        }
+        .btn-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .table-row {
+            transition: background-color 0.2s ease;
+        }
+        .table-row:hover {
+            background-color: rgba(59, 130, 246, 0.05);
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease forwards;
+        }
+    </style>
 </head>
-<body class="bg-gray-100 flex">
+<body class="bg-gray-100 flex font-sans">
 
-<!-- Sidebar -->
-<div class="w-64 bg-white shadow-md min-h-screen">
+<!-- Sidebar améliorée -->
+<div class="w-64 bg-white shadow-md min-h-screen flex flex-col justify-between">
     <div class="p-6">
-        <h1 class="text-xl font-bold text-indigo-800 mb-6">SENBUS</h1>
-        <nav class="space-y-4">
-            <a href="../../Ligne/view/ligne.html" class="flex items-center gap-2 px-3 py-2 bg-blue-50 text-blue-600 rounded">
-                <span class="material-icons">view_list</span> Lignes
+        <h1 class="text-xl font-bold text-indigo-800 mb-8 sidebar-logo flex items-center">
+            <span class="material-icons text-indigo-600 mr-2">directions_bus</span>
+            SENBUS
+        </h1>
+        <nav class="space-y-3">
+            <a href="../../bus/bus-list.html" class="nav-item flex items-center gap-3 px-4 py-3 hover:bg-blue-50 rounded-lg">
+                <span class="material-icons text-gray-600">commute</span> 
+                <span>Bus</span>
             </a>
-            <a href="../../conducteurs/conducteur-list.html" class="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 rounded">
-                <span class="material-icons">person</span> Conducteurs
+            <a href="../../Ligne/view/ligne.html" class="nav-item flex items-center gap-3 px-4 py-3 bg-blue-50 text-blue-600 rounded-lg">
+                <span class="material-icons">view_list</span> 
+                <span>Lignes</span>
             </a>
-            <a href="../../stations/station-list.html" class="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 rounded">
-                <span class="material-icons">place</span> Stations
+            <a href="../../conducteurs/conducteur-list.html" class="nav-item flex items-center gap-3 px-4 py-3 hover:bg-blue-50 rounded-lg">
+                <span class="material-icons">person</span> 
+                <span>Conducteurs</span>
+            </a>
+            <a href="../../stations/station-list.html" class="nav-item flex items-center gap-3 px-4 py-3 hover:bg-blue-50 rounded-lg">
+                <span class="material-icons">place</span> 
+                <span>Stations</span>
             </a>
         </nav>
+    </div>
+    
+    <!-- Utilisateur connecté -->
+    <div class="p-4 border-t border-gray-200">
+        <div class="flex items-center gap-3 p-2">
+            <div class="w-10 h-10 rounded-full bg-indigo-600 flex items-center justify-center text-white">
+                <span class="material-icons">person</span>
+            </div>
+            <div>
+                <p class="font-medium text-gray-800" id="nom_conducteur">Amadou Diop</p>
+                <p class="text-xs text-gray-500" id="role_conducteur">Administrateur</p>
+            </div>
+        </div>
     </div>
 </div>
 
 <!-- Main Content -->
-<main class="flex-1 p-8">
-    <div class="flex justify-between items-center mb-6">
-        <h2 class="text-2xl font-bold flex items-center gap-2">
+<main class="flex-1 p-8 main-content fade-in">
+    <div class="flex justify-between items-center mb-8">
+        <h2 class="text-2xl font-bold flex items-center gap-3 animate__animated animate__fadeInLeft">
             <span class="material-icons text-red-600">stop_circle</span>
             Arrêts de la Ligne
         </h2>
-        <button onclick="toggleModal(true)" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 flex items-center gap-2">
+        <button onclick="toggleModal(true)" class="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 flex items-center gap-2 btn-hover animate__animated animate__fadeInRight">
             <span class="material-icons">add</span> Ajouter un arrêt
         </button>
     </div>
 
-    <div class="bg-white rounded-lg shadow overflow-x-auto">
-        <table class="w-full text-sm text-left">
-            <thead class="bg-gray-100 text-gray-700 uppercase">
+    <div class="bg-white rounded-lg shadow-lg overflow-x-auto animate__animated animate__fadeIn">
+        <table class="w-full text-sm text-left border border-gray-200 rounded-lg overflow-hidden">
+            <thead class="bg-gray-200 text-gray-600 uppercase">
             <tr>
-                <th class="px-4 py-2">#</th>
-                <th class="px-4 py-2">Nom</th>
-                <th class="px-4 py-2 text-right">Actions</th>
+                <th class="px-6 py-3">Numéro</th>
+                <th class="px-6 py-3">Nom</th>
+                <th class="px-6 py-3 text-right">Actions</th>
             </tr>
             </thead>
             <tbody id="arrets-body" class="divide-y">
-            <!-- Injecté dynamiquement -->
+                <!-- Exemple de données pour visualisation -->
+                <tr class="table-row">
+                    <td class="px-6 py-4">1</td>
+                    <td class="px-6 py-4">Dakar Plateau</td>
+                    <td class="px-6 py-4 text-right">
+                        <button class="text-blue-600 hover:text-blue-800 mx-1">
+                            <span class="material-icons">edit</span>
+                        </button>
+                        <button class="text-red-600 hover:text-red-800 mx-1">
+                            <span class="material-icons">delete</span>
+                        </button>
+                    </td>
+                </tr>
+                <tr class="table-row">
+                    <td class="px-6 py-4">2</td>
+                    <td class="px-6 py-4">Médina</td>
+                    <td class="px-6 py-4 text-right">
+                        <button class="text-blue-600 hover:text-blue-800 mx-1">
+                            <span class="material-icons">edit</span>
+                        </button>
+                        <button class="text-red-600 hover:text-red-800 mx-1">
+                            <span class="material-icons">delete</span>
+                        </button>
+                    </td>
+                </tr>
             </tbody>
         </table>
     </div>
 </main>
 
-<!-- MODAL -->
+<!-- MODAL avec animation -->
 <div id="arret-modal" class="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center hidden z-50">
-    <div class="bg-white p-6 rounded-lg w-[90%] max-w-md shadow-xl">
-        <h2 class="text-xl font-semibold mb-4">Ajouter un arrêt</h2>
-        <form id="arret-form" class="space-y-4">
-            <input type="text" id="nom" placeholder="Nom de l'arrêt" class="w-full px-4 py-2 border rounded-lg" />
-            <input type="number" id="numero" placeholder="Numéro" class="w-full px-4 py-2 border rounded-lg" />
-            <div class="flex justify-end gap-2">
-                <button type="button" onclick="toggleModal(false)" class="px-4 py-2 border rounded-lg">Annuler</button>
-                <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Enregistrer</button>
+    <div class="bg-white p-8 rounded-lg w-[90%] max-w-md shadow-xl animate__animated animate__fadeInDown">
+        <h2 class="text-xl font-semibold mb-5 flex items-center">
+            <span class="material-icons text-blue-600 mr-2">add_location</span>
+            Ajouter un arrêt
+        </h2>
+        <form id="arret-form" class="space-y-5">
+            <div class="group">
+                <label for="nom" class="text-sm text-gray-600 block mb-1">Nom de l'arrêt</label>
+                <input type="text" id="nom" placeholder="Ex: Place de l'Indépendance" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all" />
+            </div>
+            <div class="group">
+                <label for="numero" class="text-sm text-gray-600 block mb-1">Numéro d'ordre</label>
+                <input type="number" id="numero" placeholder="Ex: 1" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all" />
+            </div>
+            <div class="flex justify-end gap-3 pt-2">
+                <button type="button" onclick="toggleModal(false)" class="px-5 py-2 border border-gray-300 rounded-lg hover:bg-gray-100 transition-all btn-hover">Annuler</button>
+                <button type="submit" class="bg-green-600 text-white px-5 py-2 rounded-lg hover:bg-green-700 transition-all btn-hover">Enregistrer</button>
             </div>
         </form>
     </div>
@@ -72,10 +167,8 @@
 
 <script type="module" src="../js/arret.js"></script>
 <script>
-    window.toggleModal = function (show) {
-        const modal = document.getElementById('arret-modal');
-        if (modal) modal.classList.toggle('hidden', !show);
-    };
+    // Animation pour l'affichage des lignes du tableau
+  
 </script>
 </body>
 </html>
