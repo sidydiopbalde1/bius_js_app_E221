@@ -1,15 +1,14 @@
-import { fetchData } from '../fetch/api.js';
+import { fetchData,getStations, getLignes } from '../fetch/api.js';
 
 
 const url ='http://127.0.0.1:8000';
-// Variables for pagination
+
 let currentPage = 1;
 const itemsPerPage = 5;
 let stationsData = [];
 let filteredStations = [];
 let linesData = [];
 
-// DOM Elements
 const stationsTableBody = document.getElementById('stationsTableBody');
 const searchInput = document.getElementById('searchInput');
 const searchBtn = document.getElementById('searchBtn');
@@ -40,7 +39,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 // Fetch stations data from API
 async function loadStationsData() {
     try {
-        const stations = await fetchData(`${url}/stations/list`);
+        const stations = await getStations();
+        console.log(stations);
+        
         if (!stations) {
             showNotification('Aucune station trouvée', 'error');
             return;
@@ -53,12 +54,10 @@ async function loadStationsData() {
     }
 }
 
-// Fetch lines data from API
 async function loadLinesData() {
     try {
-       const lignes = await fetchData(`${url}/lignes/list`);
-        linesData = lignes.ligne;
-        console.log(linesData);
+       const lignes = await getLignes();
+        linesData = lignes;
         
     } catch (error) {
         console.error('Error fetching lines data:', error);
@@ -93,12 +92,10 @@ function renderStations() {
         `;
         
         stationsTableBody.appendChild(row);
-    }
+ }
     
-    // Update pagination buttons
     updatePaginationButtons();
     
-    // Add event listeners to view lines buttons
     document.querySelectorAll('.view-lines-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             const stationId = parseInt(btn.getAttribute('data-station-id'));
@@ -107,9 +104,7 @@ function renderStations() {
     });
 }
 
-// Setup event listeners
 function setupEventListeners() {
-    // Search button
     searchBtn.addEventListener('click', () => {
         const searchTerm = searchInput.value.toLowerCase().trim();
         filteredStations = stationsData.filter(station => 
@@ -143,14 +138,13 @@ function setupEventListeners() {
         }
         
         try {
-            const newStation = await fetchData(`${url}/station/create`, 'POST', { numero, nom, adresse });
-           
+            await fetchData(`${url}/station/create`, 'POST', { numero, nom, adresse });
+        
             filteredStations = [...stationsData];
             currentPage = 1;
             renderStations();
             
             addStationModal.classList.add('hidden');
-            
             showNotification('Station ajoutée avec succès');
         } catch (error) {
             console.error('Error adding station:', error);
