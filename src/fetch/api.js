@@ -1,7 +1,6 @@
 
 const url ='http://127.0.0.1:8000';
-
- export  async function fetchData(url, method = 'GET', body = null) {
+export async function fetchData(url, method = 'GET', body = null) {
     try {
         const options = {
             method,
@@ -68,7 +67,7 @@ export function deleteConducteurs(matricule) {
 
 //------------------Create Lignes ----------------
 export async function getLignes() {
-    return await fetchData(`${url}/lignes/list`);
+    return await fetchData(`${url}/lignes`);
 }
 
 // Ajouter une nouvelle ligne
@@ -84,3 +83,10 @@ export async function deleteLignes(numero) {
     return response;
 }
 //------------------Create Conducteurs ----------------
+export async function getStations() {
+    return await fetchData(`${url}/stations/list`);
+}
+// Ajouter une nouvelle station
+export async function createStation(stationData) {
+    return await fetchData(`${url}/station/create`, 'POST', stationData);
+}

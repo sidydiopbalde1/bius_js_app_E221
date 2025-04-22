@@ -1,14 +1,19 @@
 import { getBuses, deleteBus, getConducteurs, createBus } from '../public/js/fetch/api.js';
 import { validateBusForm } from './validatorBus.js';
+import { renderUserConnected } from '../login/auth.js';
+import { paginate, renderPaginationControls } from "../public/js/utils/pagination.js";
 
 document.addEventListener('DOMContentLoaded', () => {
     
-    const user = localStorage.getItem("user");
+    renderUserConnected();
+    const user = JSON.parse(localStorage.getItem("user"));
 
     if (!user) {
-        // Rediriger vers la page de connexion si aucun utilisateur n'est stocké
         window.location.href = "../login/login.html";
     }
+
+    
+
     const busTypes = ["Tata", "Car Rapide", "DDK"]; 
     const select = document.getElementById("type");
 
@@ -23,12 +28,10 @@ document.addEventListener('DOMContentLoaded', () => {
         console.warn("L'élément #type n'existe pas sur cette page.");
     }
 
-    // Charger les conducteurs uniquement si le champ conducteur existe
     if (document.getElementById('conducteur')) {
         loadConducteurs();
     }
 
-    // Charger la liste des bus uniquement si la table existe
     if (document.getElementById('busTableBody')) {
         loadBuses();
     }
@@ -38,7 +41,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     openModalBtn.onclick = () => modal.classList.remove('hidden');
     closeModalBtn.onclick = () => modal.classList.add('hidden');
-    // Ajouter un event listener sur le formulaire uniquement s'il est présent
     const busForm = document.getElementById('busForm');
     if (busForm) {
         busForm.addEventListener('submit', async function (e) {
@@ -48,7 +50,6 @@ document.addEventListener('DOMContentLoaded', () => {
             errorMessage.classList.add('hidden');
             errorMessage.textContent = '';
 
-            // Récupération des valeurs du formulaire
             const formData = {
                 immatriculation: document.getElementById('immatriculation').value,
                 type: document.getElementById('type').value,
@@ -58,7 +59,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 conducteur: document.getElementById('conducteur').value || null
             };
 
-            // Validation des données
             const errors = validateBusForm(formData);
             if (errors.length > 0) {
                 errorMessage.textContent = errors.join(' | ');
@@ -66,24 +66,45 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            // Envoi des données via l'API
             const response = await createBus(formData);
 
             if (response) {
-                window.location.href = './bus-list.html'; // Redirection après succès
+                window.location.href = './bus-list.html'; 
             } else {
                 errorMessage.textContent = 'Erreur lors de la création du bus';
                 errorMessage.classList.remove('hidden');
             }
         });
     }
-
-  
-    
-    
+      
 });
+document.addEventListener('DOMContentLoaded', function() {
+    const rows = document.querySelectorAll('#busTableBody tr');
+    rows.forEach((row, index) => {
+        row.classList.add('animate__animated', 'animate__fadeIn');
+        row.style.animationDelay = `${index * 0.1}s`;
+    });
 
-// Charger la liste des conducteurs
+    const modal = document.getElementById('modal');
+    const modalContent = modal.querySelector('div');
+    const openModalBtn = document.getElementById('openModalBtn');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+
+    openModalBtn.addEventListener('click', () => {
+        modal.classList.remove('hidden');
+        modalContent.classList.remove('animate__fadeOutUp');
+        modalContent.classList.add('animate__fadeInDown');
+    });
+
+    closeModalBtn.addEventListener('click', () => {
+        modalContent.classList.remove('animate__fadeInDown');
+        modalContent.classList.add('animate__fadeOutUp');
+        
+        setTimeout(() => {
+            modal.classList.add('hidden');
+        }, 500);
+    });
+});
 async function loadConducteurs() {
     const conducteurs = await getConducteurs();
     if (conducteurs && conducteurs.conducteurs) {
@@ -102,7 +123,6 @@ async function loadConducteurs() {
     }
 }
 
-// Charger la liste des bus
 async function loadBuses() {
     const buses = await getBuses();
     if (buses && buses.bus) {
@@ -112,14 +132,18 @@ async function loadBuses() {
     }
 }
 
-// Fonction pour afficher les bus dans le tableau
-function populateBusTable(buses) {
+function populateBusTable(buses, page = 1) {
+
+    console.log(buses);
+    
+    const { data, totalPages } = paginate(buses, page, 2);
     const tableBody = document.getElementById('busTableBody');
     if (!tableBody) return;
 
-    tableBody.innerHTML = ''; // Nettoyer le tableau avant d'ajouter de nouveaux éléments
+    const paginationContainer = document.getElementById("paginationContainer");
+    tableBody.innerHTML = ''; 
 
-    buses.forEach(bus => {
+    data.forEach(bus => {
         const row = document.createElement('tr');
         row.classList.add('hover:bg-gray-50', 'transition-colors');
         row.innerHTML = `
@@ -138,15 +162,18 @@ function populateBusTable(buses) {
         tableBody.appendChild(row);
     });
 
-    // Ajouter un event listener pour chaque bouton de suppression
     document.querySelectorAll('.delete-bus').forEach(button => {
         button.addEventListener('click', async (event) => {
             const immatriculation = event.currentTarget.getAttribute('data-immatriculation');
             const success = await deleteBus(immatriculation);
             if (success) {
                 alert('Bus supprimé avec succès.');
-                loadBuses(); // Recharger la liste après suppression
+                loadBuses();
             }
         });
     });
+
+    renderPaginationControls(paginationContainer, page, totalPages, (newPage) => populateBusTable(buses, newPage));
+
+
 }

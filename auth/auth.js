@@ -11,6 +11,6 @@ fetch('http://127.0.0.1:8000/api/login', {
 .then(response => response.json())
 .then(data => {
     console.log("Token reçu :", data.token);
-    localStorage.setItem("token", data.token); // Sauvegarde le token
+    localStorage.setItem("token", data.token); 
 })
 .catch(error => console.error("Erreur :", error));
