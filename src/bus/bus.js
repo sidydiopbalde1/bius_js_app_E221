@@ -1,6 +1,8 @@
 import { getBuses, deleteBus, getConducteurs, createBus } from '../public/js/fetch/api.js';
 import { validateBusForm } from './validatorBus.js';
 import { renderUserConnected } from '../login/auth.js';
+import { paginate, renderPaginationControls } from "../public/js/utils/pagination.js";
+
 document.addEventListener('DOMContentLoaded', () => {
     
     renderUserConnected();
@@ -130,13 +132,18 @@ async function loadBuses() {
     }
 }
 
-function populateBusTable(buses) {
+function populateBusTable(buses, page = 1) {
+
+    console.log(buses);
+    
+    const { data, totalPages } = paginate(buses, page, 2);
     const tableBody = document.getElementById('busTableBody');
     if (!tableBody) return;
 
+    const paginationContainer = document.getElementById("paginationContainer");
     tableBody.innerHTML = ''; 
 
-    buses.forEach(bus => {
+    data.forEach(bus => {
         const row = document.createElement('tr');
         row.classList.add('hover:bg-gray-50', 'transition-colors');
         row.innerHTML = `
@@ -165,4 +172,8 @@ function populateBusTable(buses) {
             }
         });
     });
+
+    renderPaginationControls(paginationContainer, page, totalPages, (newPage) => populateBusTable(buses, newPage));
+
+
 }

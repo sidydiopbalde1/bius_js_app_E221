@@ -1,5 +1,6 @@
 import { createLigne, getLignes, updateLigne, deleteLigne } from './ligne.fetch.js';
 import { renderUserConnected } from '../../login/auth.js';
+import { paginate, renderPaginationControls } from '../../public/js/utils/pagination.js';
 document.addEventListener('DOMContentLoaded', async () => {
 
     renderUserConnected();
@@ -94,16 +95,18 @@ function showToast(message, type = 'success') {
     setTimeout(() => toast.remove(), 3000);
 }
 
-async function chargerLignes() {
+async function chargerLignes(page = 1) {
     const lignes = await getLignes();
     console.log(lignes);
     
     const grid = document.getElementById('lignes-grid');
     if (!grid || !Array.isArray(lignes)) return;
 
+    const { data, totalPages } = paginate(lignes, page, 5);
+    const paginationContainer = document.getElementById("paginationContainer");
     grid.innerHTML = '';
 
-    lignes.forEach(ligne => {
+    data.forEach(ligne => {
         const card = document.createElement('div');
         card.className = 'bg-white p-4 rounded-lg shadow-md';
 
@@ -189,5 +192,7 @@ async function chargerLignes() {
         });
     });
     
-    
+     // Afficher la pagination
+     renderPaginationControls(paginationContainer, page, totalPages, (newPage) => chargerLignes(newPage));
+
 }
