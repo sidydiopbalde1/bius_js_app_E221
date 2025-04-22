@@ -9,35 +9,72 @@
 </head>
 <body class="bg-gray-50 flex">
 
-<!-- Sidebar -->
-<div class="w-64 bg-white shadow-md min-h-screen">
-    <div class="p-6">
-        <h1 class="text-xl font-bold text-indigo-800 mb-6">SENBUS</h1>
-        <nav class="space-y-4">
-            <a href="#" class="block px-3 py-2 rounded bg-blue-50 text-blue-600">Lignes</a>
-            <a href="#" class="block px-3 py-2 rounded hover:bg-gray-100">Conducteurs</a>
-            <a href="#" class="block px-3 py-2 rounded hover:bg-gray-100">Stations</a>
-        </nav>
+    <div class="w-64 bg-white shadow-md min-h-screen flex flex-col justify-between">
+        <div class="p-6">
+            <h1 class="text-xl font-bold text-indigo-800 mb-8 sidebar-logo flex items-center">
+                <span class="material-icons text-indigo-600 mr-2">directions_bus</span>
+                SENBUS
+            </h1>
+            <nav class="space-y-3">
+                <a href="../../bus/bus-list.html" class="nav-item flex items-center gap-3 px-4 py-3 hover:bg-blue-50 rounded-lg">
+                    <span class="material-icons">commute</span> 
+                    <span>Bus</span>
+                </a>
+                <a href="ligne.html" class="nav-item flex items-center gap-3 px-4 py-3 hover:bg-blue-50 rounded-lg">
+                    <span class="material-icons">view_list</span> 
+                    <span>Lignes</span>
+                </a>
+                <a href="../../conducteurs/conducteur-list.html" class="nav-item flex items-center gap-3 px-4 py-3 bg-blue-50 text-blue-600 rounded-lg">
+                    <span class="material-icons">person</span> 
+                    <span>Conducteurs</span>
+                </a>
+                <a href="../../stations/station-list.html" class="nav-item flex items-center gap-3 px-4 py-3 hover:bg-blue-50 rounded-lg">
+                    <span class="material-icons">place</span> 
+                    <span>Stations</span>
+                </a>
+            </nav>
+        </div>
+        
+        <!-- Utilisateur connecté -->
+        <div class="p-4 border-t border-gray-200">
+            <div class="flex items-center gap-3 p-2">
+                <div class="w-10 h-10 rounded-full bg-indigo-600 flex items-center justify-center text-white">
+                    <span class="material-icons">person</span>
+                </div>
+                <div>
+                    <p class="font-medium text-gray-800" id="nom_conducteur">Amadou Diop</p>
+                    <p class="text-xs text-gray-500" id="role_conducteur">Administrateur</p>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
 
 <!-- Main Content -->
 <main class="flex-1 p-8">
+    <div class="bg-blue-100 shadow-sm rounded-lg mb-6">
+        <div class="max-w-7xl mx-auto py-6 px-4">
+            <h1 class="text-3xl font-bold text-center text-gray-900">Lignes</h1>
+        </div>
+    </div>
     <div class="mb-6 flex justify-between items-center">
-        <h2 class="text-2xl font-bold">LIGNES</h2>
-        <button onclick="toggleModal(true)" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 flex items-center gap-2">
+        <!-- <h2 class="text-3xl font-extrabold text-indigo-900">LIGNES</h2> -->
+        <button onclick="toggleModal(true)" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 flex items-center gap-2">
             <span class="material-icons">add</span> Ajouter une ligne
         </button>
     </div>
 
-    <div id="lignes-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    <!-- Grid -->
+    <div id="lignes-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         <!-- Cartes injectées dynamiquement -->
     </div>
+
+    <!-- pagination -->
+    <div id="paginationContainer" class="flex justify-center mt-4">1</div>
 </main>
 
 <!-- MODAL -->
 <div id="ligne-modal" class="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center hidden z-50">
-    <div class="bg-white p-6 rounded-lg w-[90%] max-w-md shadow-xl">
+    <div class="bg-white w-full max-w-xl rounded-lg shadow-lg p-8 relative animate__animated">
         <h2 class="text-xl font-semibold mb-4">Ajouter une ligne</h2>
         <form id="ligne-form" class="space-y-4">
             <div>
@@ -61,7 +98,7 @@
     </div>
 </div>
 
-<!-- Scripts -->
+<!-- Script principal -->
 <script type="module" src="../js/ligne.js"></script>
 <script>
     window.toggleModal = function (show) {

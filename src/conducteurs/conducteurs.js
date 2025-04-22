@@ -1,7 +1,10 @@
 import { createConducteurs, getConducteurs, deleteConducteurs,  } from "../public/js/fetch/api.js";
 import { validateConducteur } from "./validatorConducteur.js";
-
+import { renderUserConnected } from '../login/auth.js';
+import { paginate, renderPaginationControls } from "../public/js/utils/pagination.js";
 document.addEventListener('DOMContentLoaded', async () => {
+
+    renderUserConnected();
     const user = localStorage.getItem("user");
     if (!user) {
         window.location.href = "../login/login.html";
@@ -30,27 +33,16 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         console.log("Conducteur à enregistrer :", driver);
 
-        // Validation des données
         const errors = validateConducteur(driver);
-        // if (errors.length > 0) {
-        //     errorMessage.textContent = errors.join(", ");
-        //     errorMessage.classList.remove("hidden");
-        //     return;
-        // }
+   
 
         try {
             await createConducteurs(driver);
             
-          
-            
-
-            // Recharger la liste des conducteurs
             await chargerConducteurs();
 
-            // Réinitialiser le formulaire
             e.target.reset();
-            modalOverlay.classList.add("hidden"); // Fermer le modal
-            // Masquer le message après 3 secondes et fermer le modal
+            modalOverlay.classList.add("hidden"); 
            
         } catch (error) {
             console.error("Erreur lors de l'ajout du conducteur:", error);
@@ -59,21 +51,52 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     });
 
-    // Charger la liste des conducteurs au démarrage
     await chargerConducteurs();
 });
+document.addEventListener('DOMContentLoaded', function() {
+    const rows = document.querySelectorAll('#driverTableBody tr');
+    rows.forEach((row, index) => {
+      row.classList.add('animate__animated', 'animate__fadeIn');
+      row.style.animationDelay = `${index * 0.1}s`;
+    });
 
-// Fonction pour charger la liste des conducteurs dans le tableau
-async function chargerConducteurs() {
+    // Gestion du modal avec animation
+    const modal = document.getElementById('modalOverlay');
+    const modalContent = modal.querySelector('div');
+    const addDriverBtn = document.getElementById('addDriverBtn');
+    const closeModalBtn = document.getElementById('closeModal');
+
+    addDriverBtn.addEventListener('click', () => {
+      modal.classList.remove('hidden');
+      modalContent.classList.remove('animate__fadeOutUp');
+      modalContent.classList.add('animate__fadeInDown');
+    });
+
+    closeModalBtn.addEventListener('click', () => {
+      modalContent.classList.remove('animate__fadeInDown');
+      modalContent.classList.add('animate__fadeOutUp');
+      
+      setTimeout(() => {
+        modal.classList.add('hidden');
+      }, 500);
+    });
+  });
+
+  async function chargerConducteurs(page = 1) {
     try {
-        const conducteurs = await getConducteurs();
-        console.log("Liste des conducteurs :", conducteurs);
+        const response = await getConducteurs();
+        const conducteurs = response.conducteurs;
+        console.log(conducteurs);
         
         const driverTableBody = document.getElementById("driverTableBody");
+        const { data, totalPages } = paginate(conducteurs, page, 2);
+        const paginationContainer = document.getElementById("paginationContainer");
 
-        driverTableBody.innerHTML = ""; // Vider le tableau avant d'insérer de nouvelles données
+        console.log(paginationContainer);
+        
+        driverTableBody.innerHTML = "";
 
-        conducteurs.conducteurs.forEach(conducteur => {
+        data.forEach(conducteur => {
             const row = document.createElement("tr");
 
             row.innerHTML = `
@@ -83,36 +106,39 @@ async function chargerConducteurs() {
                 <td class="px-6 py-4 whitespace-nowrap">${conducteur.telephone}</td>
                 <td class="px-6 py-4 whitespace-nowrap">${conducteur.typePermis}</td>
                 <td class="px-6 py-4 whitespace-nowrap">${conducteur.disponible}</td>
-                <td class="px-6 py-4 whitespace-nowrap">
-                    <button class="text-red-500 hover:text-red-700 delete-conducteur" data-matricule="${conducteur.matricule}">
+              <td class="px-6 py-4 whitespace-nowrap">
+                <button class="text-red-500 hover:text-red-700 delete-conducteur" data-matricule="${conducteur.matricule}">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
                     </svg>
                 </button>
-                
-              
-            `;
+            </td>
 
+            `;
             driverTableBody.appendChild(row);
         });
 
-    // Ajouter un event listener pour chaque bouton de suppression
-        const deleteButtons = document.querySelectorAll(".delete-conducteur");
-        deleteButtons.forEach(button => {
+        // Ajouter les événements de suppression
+        document.querySelectorAll(".delete-conducteur").forEach(button => {
             button.addEventListener("click", async function () {
                 const matricule = this.getAttribute("data-matricule");
-                const confirmDelete = confirm(`Voulez-vous vraiment supprimer le conducteur ${matricule} ?`);
-                if (confirmDelete) {
+                if (confirm(`Voulez-vous vraiment supprimer le conducteur ${matricule} ?`)) {
                     try {
                         await deleteConducteurs(matricule);
-                        await chargerConducteurs(); // Recharger la liste après suppression
+                        chargerConducteurs(page); 
                     } catch (error) {
                         console.error("Erreur lors de la suppression du conducteur:", error);
                     }
                 }
             });
         });
+
+        // Afficher la pagination
+        renderPaginationControls(paginationContainer, page, totalPages, (newPage) => chargerConducteurs(newPage));
+
     } catch (error) {
         console.error("Erreur lors du chargement des conducteurs:", error);
     }
 }
+
+

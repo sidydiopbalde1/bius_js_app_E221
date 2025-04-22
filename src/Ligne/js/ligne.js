@@ -1,6 +1,9 @@
 import { createLigne, getLignes, updateLigne, deleteLigne } from './ligne.fetch.js';
-
+import { renderUserConnected } from '../../login/auth.js';
+import { paginate, renderPaginationControls } from '../../public/js/utils/pagination.js';
 document.addEventListener('DOMContentLoaded', async () => {
+
+    renderUserConnected();
     await chargerLignes();
 
     const form = document.getElementById('ligne-form');
@@ -11,9 +14,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (form) {
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
-
             clearErrors();
-
             let valid = true;
 
             if (!kmInput.value || !Number.isInteger(Number(kmInput.value)) || parseInt(kmInput.value) <= 0) {
@@ -94,36 +95,56 @@ function showToast(message, type = 'success') {
     setTimeout(() => toast.remove(), 3000);
 }
 
-async function chargerLignes() {
+async function chargerLignes(page = 1) {
     const lignes = await getLignes();
+    console.log(lignes);
+    
     const grid = document.getElementById('lignes-grid');
     if (!grid || !Array.isArray(lignes)) return;
 
+    const { data, totalPages } = paginate(lignes, page, 5);
+    const paginationContainer = document.getElementById("paginationContainer");
     grid.innerHTML = '';
 
-    lignes.forEach(ligne => {
+    data.forEach(ligne => {
         const card = document.createElement('div');
         card.className = 'bg-white p-4 rounded-lg shadow-md';
 
-        card.innerHTML = `
-    <div class="flex justify-between items-center mb-2">
-        <h3 class="text-lg font-semibold">Ligne #${ligne.id}</h3>
-        <div class="space-x-2">
-            <button data-id="${ligne.id}" class="modifier-btn text-blue-600 hover:underline">✏️</button>
-            <button data-id="${ligne.id}" class="supprimer-btn text-red-600 hover:underline">🗑️</button>
-        </div>
-    </div>
-    <div class="space-y-1 text-gray-600">
-        <p>Kilomètres : ${ligne.nbrKilometre}</p>
-        <p>Tarif : ${ligne.tarif} Fcfa</p>
-        <p>Arrêts : ${ligne.nombreArrets}</p>
-        <a href="/bius_js_app_E221/src/Arret/view/arret.html?ligneId=${ligne.id}"class="text-sm text-blue-600 hover:underline inline-flex items-center gap-1">
-            <span class="material-icons text-sm">stop_circle</span> Voir les arrêts
-        </a>
-    </div>
-`;
+        const arretsHTML = ligne.arrets.length > 0
+            ? `
+            <div class="mt-2">
+                <h4 class="font-semibold">🛑 Arrêts :</h4>
+                <ul class="list-disc ml-5 text-sm text-gray-700">
+                    ${ligne.arrets.map(arret => `<li>${arret.nom} (#${arret.numero})</li>`).join('')}
+                </ul>
+            </div>`
+            : `<p class="text-sm text-gray-500 mt-2">Aucun arrêt défini</p>`;
 
-console.log(ligne.id);
+        card.innerHTML = `
+            <div class="flex justify-between items-center mb-2">
+                <h3 class="text-lg font-semibold">Ligne #${ligne.id}</h3>
+                <div class="space-x-2">
+                    <button data-id="${ligne.id}" class="modifier-btn text-blue-600 hover:underline">✏️</button>
+                    <button data-id="${ligne.id}" class="supprimer-btn text-red-600 hover:underline">🗑️</button>
+                </div>
+            </div>
+            <div class="space-y-1 text-gray-600">
+                <p><strong>Kilomètres :</strong> ${ligne.nbrKilometre}</p>
+                <p><strong>Tarif :</strong> ${ligne.tarif} Fcfa</p>
+                <p><strong>État :</strong> ${ligne.etat}</p>
+                <p><strong>Nombre d'arrêts :</strong> ${ligne.arrets.length}</p>
+            <button 
+                data-arrets='${JSON.stringify(ligne.arrets)}' 
+                data-ligne-id='${ligne.id}' 
+                class="voir-arrets text-sm text-blue-600 hover:underline inline-flex items-center gap-1 mt-2"
+                >
+                <span class="material-icons text-sm">stop_circle</span> Voir les arrêts
+            </button>
+
+
+            </div>
+        `;
+
         grid.appendChild(card);
     });
 
@@ -154,4 +175,24 @@ console.log(ligne.id);
             toggleModal(true);
         });
     });
+
+    document.querySelectorAll('.voir-arrets').forEach(button => {
+        button.addEventListener('click', () => {
+            const arrets = JSON.parse(button.dataset.arrets);
+            const ligneId = parseInt(button.dataset.ligneId); 
+            
+            const arretsAvecId = arrets.map(a => ({
+                ...a,
+                ligneId: a.ligneId || ligneId
+            }));
+    
+            localStorage.setItem('arrets_ligne', JSON.stringify(arretsAvecId));
+    
+            window.location.href = '/src/Arret/view/arret.html';
+        });
+    });
+    
+     // Afficher la pagination
+     renderPaginationControls(paginationContainer, page, totalPages, (newPage) => chargerLignes(newPage));
+
 }

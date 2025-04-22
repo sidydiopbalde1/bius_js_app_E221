@@ -1,10 +1,20 @@
-import { getArretsByLigne, createArret } from './arret.fetch.js';
-
+import { createArret } from './arret.fetch.js';
+import { renderUserConnected } from '../../login/auth.js';
 document.addEventListener('DOMContentLoaded', async () => {
-    const params = new URLSearchParams(window.location.search);
-    const ligneId = params.get('ligneId');
+    renderUserConnected();
+    const arretsJSON = localStorage.getItem('arrets_ligne');
+    const ligneIdStorage = localStorage.getItem('ligne_id');
+    
+    let arrets = arretsJSON ? JSON.parse(arretsJSON) : [];
 
-    if (!ligneId) return showToast("Ligne introuvable", "error");
+    // Priorité à ligneId stocké séparément si disponible
+    const ligneId = arrets[0]?.ligneId || parseInt(ligneIdStorage);
+    console.log(ligneId);
+    
+    if (!ligneId) {
+        showToast("ID de la ligne introuvable", "error");
+        return;
+    }
 
     const form = document.getElementById('arret-form');
     const nomInput = document.getElementById('nom');
@@ -20,20 +30,21 @@ document.addEventListener('DOMContentLoaded', async () => {
             return;
         }
 
-        const result = await createArret({ nom, numero, ligneId: parseInt(ligneId) });
+        const result = await createArret({ nom, numero, ligneId });
 
         if (result) {
             showToast("✅ Arrêt ajouté");
             nomInput.value = '';
             numeroInput.value = '';
-            await chargerArrets();
+            arrets.push(result);
+            localStorage.setItem('arrets_ligne', JSON.stringify(arrets));
+            chargerArrets();
         }
     });
 
-    async function chargerArrets() {
+    function chargerArrets() {
         const tbody = document.getElementById('arrets-body');
         tbody.innerHTML = '';
-        const arrets = await getArretsByLigne(ligneId);
 
         if (!arrets || arrets.length === 0) {
             tbody.innerHTML = `
@@ -59,7 +70,37 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    await chargerArrets();
+    chargerArrets();
+    document.addEventListener('DOMContentLoaded', function() {
+        // Ajouter les classes d'animation aux lignes de tableau
+        const rows = document.querySelectorAll('#arrets-body tr');
+        rows.forEach((row, index) => {
+            row.classList.add('animate__animated', 'animate__fadeIn');
+            row.style.animationDelay = `${index * 0.1}s`;
+        });
+    });
+
+    // Toggle modal avec animation
+    window.toggleModal = function(show) {
+        const modal = document.getElementById('arret-modal');
+        const modalContent = modal.querySelector('div');
+        
+        if (show) {
+            // Afficher le modal
+            modal.classList.remove('hidden');
+            modalContent.classList.remove('animate__fadeOutUp');
+            modalContent.classList.add('animate__fadeInDown');
+        } else {
+            // Cacher le modal avec animation
+            modalContent.classList.remove('animate__fadeInDown');
+            modalContent.classList.add('animate__fadeOutUp');
+            
+            // Attendre la fin de l'animation avant de cacher complètement
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 500);
+        }
+    };
 });
 
 // Toast générique
