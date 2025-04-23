@@ -80,22 +80,18 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     });
 
-    // Toggle modal avec animation
     window.toggleModal = function(show) {
         const modal = document.getElementById('arret-modal');
         const modalContent = modal.querySelector('div');
         
         if (show) {
-            // Afficher le modal
             modal.classList.remove('hidden');
             modalContent.classList.remove('animate__fadeOutUp');
             modalContent.classList.add('animate__fadeInDown');
         } else {
-            // Cacher le modal avec animation
             modalContent.classList.remove('animate__fadeInDown');
             modalContent.classList.add('animate__fadeOutUp');
             
-            // Attendre la fin de l'animation avant de cacher complètement
             setTimeout(() => {
                 modal.classList.add('hidden');
             }, 500);
@@ -103,7 +99,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     };
 });
 
-// Toast générique
 function showToast(message, type = "success") {
     const toast = document.createElement('div');
     toast.textContent = message;
