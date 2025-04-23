@@ -43,8 +43,6 @@ export async function deleteBus(immatriculation) {
 }
 
 
-
-
 //------------------Create Bus ----------------
 export async function getConducteurs() {
     return await fetchData(`${url}/conducteurs/list`);

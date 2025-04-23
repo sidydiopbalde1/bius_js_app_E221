@@ -12,8 +12,6 @@ document.addEventListener('DOMContentLoaded', () => {
         window.location.href = "../login/login.html";
     }
 
-    
-
     const busTypes = ["Tata", "Car Rapide", "DDK"]; 
     const select = document.getElementById("type");
 
@@ -58,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 enCirculation: document.getElementById('enCirculation').value === 'true',
                 conducteur: document.getElementById('conducteur').value || null
             };
-
+            console.log(formData);
             const errors = validateBusForm(formData);
             if (errors.length > 0) {
                 errorMessage.textContent = errors.join(' | ');
